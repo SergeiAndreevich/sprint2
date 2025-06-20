@@ -6,7 +6,7 @@ import {authHandler} from "../authorization/superAdminAuth.handler";
 export const authRouter = Router({});
 
 authRouter
-    .post('/', AuthInputValidation, checkValidationErrors, authHandler)
+    .post('/login', AuthInputValidation, checkValidationErrors, authHandler)
 // проверили, корректно ли нам передали инпут
 //собрали огибки валидации и кинули их в мидлвэре
 // обработали в хэндлере - есть ошибки валидации 400, не совпали данные - 401, все ок 200

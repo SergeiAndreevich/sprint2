@@ -9,6 +9,8 @@ const blogs_router_1 = require("./routers/blogs.router");
 const path_1 = require("./core/path/path");
 const posts_router_1 = require("./routers/posts.router");
 const testing_router_1 = require("./routers/testing.router");
+const auth_router_1 = require("./routers/auth.router");
+const users_router_1 = require("./routers/users.router");
 const setupApp = (app) => {
     app.use(express_1.default.json()); // middleware для парсинга JSON в теле запроса
     app.get('/', (req, res) => {
@@ -17,10 +19,10 @@ const setupApp = (app) => {
     app.use(path_1.PATH.blogs, blogs_router_1.blogsRouter);
     app.use(path_1.PATH.posts, posts_router_1.postsRouter);
     app.use(path_1.PATH.testing, testing_router_1.testingRouter);
+    app.use(path_1.PATH.auth, auth_router_1.authRouter);
+    app.use(path_1.PATH.users, users_router_1.usersRouter);
     //setupSwagger(app);
     return app;
 };
 exports.setupApp = setupApp;
 //
-//просто дописываю хоть что-то, чтобы написать commit
-//мне нужно сделать удобный переход по веткам, чтобы наблюдать 2,3,4 версии проекта

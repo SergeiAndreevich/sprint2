@@ -2,5 +2,7 @@ export const PATH = {
     blogs: '/blogs',
     posts: '/posts',
     testing: '/testing',
-    docs: '/api'
+    docs: '/api',
+    auth: '/auth',
+    users: '/users'
 }

@@ -3,6 +3,8 @@ import {blogsRouter} from "./routers/blogs.router";
 import {PATH} from "./core/path/path";
 import {postsRouter} from "./routers/posts.router";
 import {testingRouter} from "./routers/testing.router";
+import {authRouter} from "./routers/auth.router";
+import {usersRouter} from "./routers/users.router";
 
 
 export const setupApp = (app: Express) => {
@@ -16,10 +18,9 @@ export const setupApp = (app: Express) => {
     app.use(PATH.blogs,blogsRouter);
     app.use(PATH.posts,postsRouter);
     app.use(PATH.testing,testingRouter);
+    app.use(PATH.auth, authRouter);
+    app.use(PATH.users, usersRouter)
     //setupSwagger(app);
     return app;
 };
 //
-
-//просто дописываю хоть что-то, чтобы написать commit
-//мне нужно сделать удобный переход по веткам, чтобы наблюдать 2,3,4 версии проекта

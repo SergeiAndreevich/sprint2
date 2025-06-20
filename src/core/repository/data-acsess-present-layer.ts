@@ -4,7 +4,8 @@ import {blogsCollection, postsCollection} from "../../db/mongo.db";
 import {Post} from "../../Posts/Post";
 import {BlogSortsFields, PaginationAndSorting, PostsSortFields} from "../core-types/pagination-and-sorting";
 import {PostsQueryInput} from "../../Posts/dto/posts-query-input-model";
-import {param} from "express-validator";
+import {LoginInputModel} from "../../authorization/LoginInputModel";
+import {validate} from "email-validator";
 
 export const queryRepo ={
     async findAll(): Promise<{}> {
@@ -105,5 +106,33 @@ export const queryRepo ={
             .toArray();
         const totalCount = await postsCollection.countDocuments(filter);
         return { items, totalCount }
+    },
+    async checkAuthInfo(input: LoginInputModel):Promise<boolean> {
+        //нужно как-то определить, что пришло: логин или email
+        //затем проверить, есть ли такое в БД (скорее всего тут используется bcrypt)
+        //аналогично проверяем исть ли пароль
+        // если оба true - возвращаем в answer true
+        const {loginOrEmail, password} = input;
+        let user;
+
+        if (validate(loginOrEmail)) {
+            // Ищем пользователя по email
+            user = await usersCollection.findOne({ email: loginOrEmail });
+        } else {
+            // Ищем пользователя по логину
+            user = await usersCollection.findOne({ login: loginOrEmail });
+        }
+        if (!user) {
+            // Пользователь не найден
+            return false
+        }
+        console.log('user', user)
+
+        //сравниваем хэш пароля
+        const matchedPassword = await bcrypt.compare(password, user.password)
+        if(!matchedPassword){
+            return false
+        }
+        return true
     }
 }

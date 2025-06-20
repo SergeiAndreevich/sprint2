@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.queryRepo = void 0;
 const mongodb_1 = require("mongodb");
 const mongo_db_1 = require("../../db/mongo.db");
+const email_validator_1 = require("email-validator");
 exports.queryRepo = {
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -106,6 +107,35 @@ exports.queryRepo = {
                 .toArray();
             const totalCount = yield mongo_db_1.postsCollection.countDocuments(filter);
             return { items, totalCount };
+        });
+    },
+    checkAuthInfo(input) {
+        return __awaiter(this, void 0, void 0, function* () {
+            //нужно как-то определить, что пришло: логин или email
+            //затем проверить, есть ли такое в БД (скорее всего тут используется bcrypt)
+            //аналогично проверяем исть ли пароль
+            // если оба true - возвращаем в answer true
+            const { loginOrEmail, password } = input;
+            let user;
+            if ((0, email_validator_1.validate)(loginOrEmail)) {
+                // Ищем пользователя по email
+                user = yield usersCollection.findOne({ email: loginOrEmail });
+            }
+            else {
+                // Ищем пользователя по логину
+                user = yield usersCollection.findOne({ login: loginOrEmail });
+            }
+            if (!user) {
+                // Пользователь не найден
+                return false;
+            }
+            console.log('user', user);
+            //сравниваем хэш пароля
+            const matchedPassword = yield bcrypt.compare(password, user.password);
+            if (!matchedPassword) {
+                return false;
+            }
+            return true;
         });
     }
 };

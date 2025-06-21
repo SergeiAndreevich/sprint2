@@ -1,7 +1,7 @@
 "use strict";
 //import {SortDirection} from "mongodb";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PostsSortFields = exports.BlogSortsFields = exports.SortDirection = void 0;
+exports.UsersSortFields = exports.PostsSortFields = exports.BlogSortsFields = exports.SortDirection = void 0;
 var SortDirection;
 (function (SortDirection) {
     SortDirection["Asc"] = "asc";
@@ -16,3 +16,7 @@ var PostsSortFields;
 (function (PostsSortFields) {
     PostsSortFields["CreatedAt"] = "createdAt";
 })(PostsSortFields || (exports.PostsSortFields = PostsSortFields = {}));
+var UsersSortFields;
+(function (UsersSortFields) {
+    UsersSortFields["CreatedAt"] = "createdAt";
+})(UsersSortFields || (exports.UsersSortFields = UsersSortFields = {}));

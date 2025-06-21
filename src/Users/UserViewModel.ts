@@ -1,6 +1,6 @@
-export type User = {
+export type UserViewModel = {
+    id: string;
     login: string;
     email: string;
-    password: string;
     createdAt: Date;
 }

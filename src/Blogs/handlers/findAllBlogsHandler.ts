@@ -1,7 +1,5 @@
 import { Request, Response } from 'express';
-import {repository} from "../../core/repository/data-acsess-layer";
 import {httpStatus} from "../../core/core-types/http-statuses";
-import {mapBlogToViewModel} from "../mappers/map-blog-to-view-model";
 import {queryRepo} from "../../core/repository/data-acsess-present-layer";
 import {mapToBlogsListPaginatedOutput} from "../mappers/map-blogs-list-pagination";
 import {setDefaultSortAndPaginationIfNotExist} from "../../core/helpers/BlogsSortAndPagination.helper";
@@ -27,7 +25,7 @@ export async function findAllBlogsHandler(req:Request,res:Response) {
         res.send(blogsToView).status(httpStatus.Ok)  // mb change the order
     }
     catch(e){
-        console.log(e)
+        //console.log(e)
         res.sendStatus((httpStatus.InternalServerError))
     }
 }

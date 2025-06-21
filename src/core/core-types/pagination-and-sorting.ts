@@ -10,6 +10,8 @@ export type PaginationAndSorting<S> = {
     sortBy: S;
     sortDirection: SortDirection;
     searchNameTerm?: string;
+    searchLoginTerm?: string;
+    searchEmailTerm?: string;
 };
 
 export enum BlogSortsFields {
@@ -17,6 +19,9 @@ export enum BlogSortsFields {
     CreatedAt = 'createdAt'
 }
 export enum PostsSortFields {
+    CreatedAt = 'createdAt'
+}
+export enum UsersSortFields {
     CreatedAt = 'createdAt'
 }
 export type PaginatedOutput = {

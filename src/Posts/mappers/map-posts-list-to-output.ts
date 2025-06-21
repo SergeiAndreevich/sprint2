@@ -1,6 +1,6 @@
 import {WithId} from "mongodb";
 import {Blog} from "../../Blogs/Blog";
-import {PaginationBlogsViewModel} from "../../core/core-types/pagination-blogs-view-model";
+import {PaginationViewModels} from "../../core/core-types/pagination-view-models";
 import {BlogViewModel} from "../../Blogs/dto/blog-view-model";
 import {Post} from "../Post";
 import {PaginationPostsViewModel} from "../../core/core-types/pagination-posts-view-model";

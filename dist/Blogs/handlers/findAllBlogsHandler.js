@@ -32,7 +32,7 @@ function findAllBlogsHandler(req, res) {
             res.send(blogsToView).status(http_statuses_1.httpStatus.Ok); // mb change the order
         }
         catch (e) {
-            console.log(e);
+            //console.log(e)
             res.sendStatus((http_statuses_1.httpStatus.InternalServerError));
         }
     });

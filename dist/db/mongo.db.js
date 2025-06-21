@@ -9,12 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postsCollection = exports.blogsCollection = exports.client = void 0;
+exports.usersCollection = exports.postsCollection = exports.blogsCollection = exports.client = void 0;
 exports.runDB = runDB;
 const mongodb_1 = require("mongodb");
 const db_settings_1 = require("../core/settings/db.settings");
 const BLOGS_COLLECTION_NAME = 'blogs';
 const POSTS_COLLECTION_NAME = 'posts';
+const USERS_COLLECTION_NAME = 'users';
 //создаем подключение к БД (тк БД мб много, то и url может меняться)
 function runDB(url) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -25,6 +26,7 @@ function runDB(url) {
         //создаем коллекции в этой БД
         exports.blogsCollection = db.collection(BLOGS_COLLECTION_NAME);
         exports.postsCollection = db.collection(POSTS_COLLECTION_NAME);
+        exports.usersCollection = db.collection(USERS_COLLECTION_NAME);
         //пробный конект с БД, пингуем для проверки
         try {
             yield exports.client.connect();

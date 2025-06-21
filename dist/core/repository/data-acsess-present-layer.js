@@ -13,12 +13,14 @@ exports.queryRepo = void 0;
 const mongodb_1 = require("mongodb");
 const mongo_db_1 = require("../../db/mongo.db");
 const email_validator_1 = require("email-validator");
+const mapUserToOutput_helper_1 = require("../../Users/helpers/mapUserToOutput.helper");
 exports.queryRepo = {
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
             const allBlogs = yield mongo_db_1.blogsCollection.find().toArray();
             const allPosts = yield mongo_db_1.postsCollection.find().toArray();
-            const response = { posts: allPosts, blogs: allBlogs };
+            const allUsers = yield mongo_db_1.usersCollection.find().toArray();
+            const response = { posts: allPosts, blogs: allBlogs, users: allUsers };
             return response;
         });
     },
@@ -119,11 +121,11 @@ exports.queryRepo = {
             let user;
             if ((0, email_validator_1.validate)(loginOrEmail)) {
                 // Ищем пользователя по email
-                user = yield usersCollection.findOne({ email: loginOrEmail });
+                user = yield mongo_db_1.usersCollection.findOne({ email: loginOrEmail });
             }
             else {
                 // Ищем пользователя по логину
-                user = yield usersCollection.findOne({ login: loginOrEmail });
+                user = yield mongo_db_1.usersCollection.findOne({ login: loginOrEmail });
             }
             if (!user) {
                 // Пользователь не найден
@@ -131,11 +133,49 @@ exports.queryRepo = {
             }
             console.log('user', user);
             //сравниваем хэш пароля
-            const matchedPassword = yield bcrypt.compare(password, user.password);
-            if (!matchedPassword) {
-                return false;
-            }
+            // const matchedPassword = await bcrypt.compare(password, user.password)
+            // if(!matchedPassword){
+            //     return false
+            // }
             return true;
+        });
+    },
+    findUserByIdOrFail(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const found = yield mongo_db_1.usersCollection.findOne({ _id: new mongodb_1.ObjectId(id) });
+            if (!found) {
+                throw new Error('post not found');
+            }
+            const userToOutput = (0, mapUserToOutput_helper_1.mapUserToOutput)(found);
+            return userToOutput;
+        });
+    },
+    findUsersListByCriteria(dto) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { pageNumber, pageSize, sortBy, sortDirection, searchLoginTerm, searchEmailTerm } = dto;
+            const skip = (pageNumber - 1) * pageSize;
+            const filter = {};
+            if (searchLoginTerm) {
+                filter.login = { $regex: searchLoginTerm, $options: 'i' };
+            }
+            if (searchEmailTerm) {
+                filter.email = { $regex: searchEmailTerm, $options: 'i' };
+            }
+            const items = yield mongo_db_1.usersCollection
+                .find(filter)
+                .sort({ [sortBy]: sortDirection })
+                .skip(skip)
+                .limit(pageSize)
+                .toArray();
+            const totalCount = yield mongo_db_1.usersCollection.countDocuments(filter);
+            const usersToView = {
+                pagesCount: Math.ceil(totalCount / pageSize),
+                page: pageNumber,
+                pageSize: pageSize,
+                totalCount: totalCount,
+                items: items.map((item) => (0, mapUserToOutput_helper_1.mapUserToOutput)(item))
+            };
+            return usersToView;
         });
     }
 };

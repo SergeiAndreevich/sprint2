@@ -2,12 +2,15 @@ import {Collection, Db, MongoClient} from "mongodb";
 import {Blog} from "../Blogs/Blog";
 import {Post} from "../Posts/Post";
 import {SETTINGS} from "../core/settings/db.settings";
+import {User} from "../Users/User";
 
 const BLOGS_COLLECTION_NAME = 'blogs';
 const POSTS_COLLECTION_NAME = 'posts';
+const USERS_COLLECTION_NAME = 'users';
 export let client: MongoClient;
 export let blogsCollection: Collection<Blog>;
-export let  postsCollection: Collection<Post>;
+export let postsCollection: Collection<Post>;
+export let usersCollection: Collection<User>;
 
 //создаем подключение к БД (тк БД мб много, то и url может меняться)
 export async function runDB(url:string):Promise<void> {
@@ -20,6 +23,7 @@ export async function runDB(url:string):Promise<void> {
     //создаем коллекции в этой БД
     blogsCollection = db.collection<Blog>(BLOGS_COLLECTION_NAME);
     postsCollection = db.collection<Post>(POSTS_COLLECTION_NAME);
+    usersCollection = db.collection<User>(USERS_COLLECTION_NAME);
 
     //пробный конект с БД, пингуем для проверки
     try {

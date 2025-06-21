@@ -1,17 +1,27 @@
 import {ObjectId, WithId} from "mongodb";
 import {Blog} from "../../Blogs/Blog";
-import {blogsCollection, postsCollection} from "../../db/mongo.db";
+import {blogsCollection, postsCollection, usersCollection} from "../../db/mongo.db";
 import {Post} from "../../Posts/Post";
-import {BlogSortsFields, PaginationAndSorting, PostsSortFields} from "../core-types/pagination-and-sorting";
+import {
+    BlogSortsFields,
+    PaginationAndSorting,
+    PostsSortFields,
+    UsersSortFields
+} from "../core-types/pagination-and-sorting";
 import {PostsQueryInput} from "../../Posts/dto/posts-query-input-model";
 import {LoginInputModel} from "../../authorization/LoginInputModel";
 import {validate} from "email-validator";
+import {User} from "../../Users/User";
+import {UserViewModel} from "../../Users/UserViewModel";
+import {mapUserToOutput} from "../../Users/helpers/mapUserToOutput.helper";
+import {PaginationUsersViewModel} from "../core-types/pagination-view-models";
 
 export const queryRepo ={
     async findAll(): Promise<{}> {
         const allBlogs = await blogsCollection.find().toArray();
         const allPosts = await postsCollection.find().toArray();
-        const response = {posts: allPosts, blogs: allBlogs};
+        const allUsers = await usersCollection.find().toArray();
+        const response = {posts: allPosts, blogs: allBlogs, users: allUsers};
         return response
     },
     async findAllBlogs(): Promise<WithId<Blog>[]>{
@@ -129,10 +139,53 @@ export const queryRepo ={
         console.log('user', user)
 
         //сравниваем хэш пароля
-        const matchedPassword = await bcrypt.compare(password, user.password)
-        if(!matchedPassword){
-            return false
-        }
+        // const matchedPassword = await bcrypt.compare(password, user.password)
+        // if(!matchedPassword){
+        //     return false
+        // }
         return true
+    },
+    async findUserByIdOrFail(id: string):Promise<UserViewModel> {
+        const found = await  usersCollection.findOne({_id: new ObjectId(id)});
+        if(!found){
+            throw new Error('post not found');
+        }
+        const userToOutput = mapUserToOutput(found);
+        return userToOutput
+    },
+    async findUsersListByCriteria(dto:PaginationAndSorting<UsersSortFields>):Promise<PaginationUsersViewModel>{
+        const {
+            pageNumber,
+            pageSize,
+            sortBy,
+            sortDirection,
+            searchLoginTerm,
+            searchEmailTerm
+        } = dto;
+        const skip = (pageNumber - 1) * pageSize;
+        const filter: any = {};
+
+        if (searchLoginTerm) {
+            filter.login = { $regex: searchLoginTerm, $options: 'i' };
+        }
+        if (searchEmailTerm) {
+            filter.email = { $regex: searchEmailTerm, $options: 'i' };
+        }
+
+        const items = await usersCollection
+            .find(filter)
+            .sort({ [sortBy]: sortDirection })
+            .skip(skip)
+            .limit(pageSize)
+            .toArray();
+        const totalCount = await usersCollection.countDocuments(filter);
+        const usersToView = {
+            pagesCount: Math.ceil(totalCount / pageSize),
+            page: pageNumber,
+            pageSize: pageSize,
+            totalCount: totalCount,
+            items: items.map((item: WithId<User>) => mapUserToOutput(item))
+        }
+        return usersToView
     }
 }

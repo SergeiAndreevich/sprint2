@@ -4,8 +4,9 @@ import {BlogInputModel} from "../../Blogs/dto/blog-input-model";
 import {Post} from "../../Posts/Post";
 import {PostInputModel} from "../../Posts/dto/post-input-model";
 import {ObjectId, WithId} from "mongodb";
-import {blogsCollection, postsCollection} from "../../db/mongo.db";
+import {blogsCollection, postsCollection, usersCollection} from "../../db/mongo.db";
 import allPresets from "ts-jest/presets";
+import {User} from "../../Users/User";
 
 export const repository = {
     async createNewBlog(newBlog:Blog): Promise<string>{
@@ -61,6 +62,17 @@ export const repository = {
         const deletedOne = await postsCollection.deleteOne({ _id: new ObjectId(id) });
         if (deletedOne.deletedCount < 1) {
             throw new Error('Blog does not exist');
+        }
+        return
+    },
+    async createNewUser(user: User): Promise<string> {
+        const newUser = await usersCollection.insertOne(user);
+        return newUser.insertedId.toString()
+    },
+    async removeUser(id:string): Promise<void> {
+        const deletedUser = await usersCollection.deleteOne({_id: new ObjectId(id)});
+        if (deletedUser.deletedCount < 1) {
+            throw new Error('User does not exist');
         }
         return
     }

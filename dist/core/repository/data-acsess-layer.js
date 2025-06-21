@@ -81,5 +81,20 @@ exports.repository = {
             }
             return;
         });
+    },
+    createNewUser(user) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const newUser = yield mongo_db_1.usersCollection.insertOne(user);
+            return newUser.insertedId.toString();
+        });
+    },
+    removeUser(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const deletedUser = yield mongo_db_1.usersCollection.deleteOne({ _id: new mongodb_1.ObjectId(id) });
+            if (deletedUser.deletedCount < 1) {
+                throw new Error('User does not exist');
+            }
+            return;
+        });
     }
 };

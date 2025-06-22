@@ -27,6 +27,6 @@ const passwordValidation = body('password')
     .withMessage('Password must be a string')
     .trim()
     .isLength({ min: 6,   max: 20 })
-    .withMessage('Login must be btw 6 and 20 characters')
+    .withMessage('Password must be btw 6 and 20 characters')
 
 export const UserInputValidation = [loginValidation,  emailValidation, passwordValidation];

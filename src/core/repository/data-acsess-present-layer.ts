@@ -15,6 +15,7 @@ import {User} from "../../Users/User";
 import {UserViewModel} from "../../Users/UserViewModel";
 import {mapUserToOutput} from "../../Users/helpers/mapUserToOutput.helper";
 import {PaginationUsersViewModel} from "../core-types/pagination-view-models";
+import bcrypt from "bcrypt";
 
 export const queryRepo ={
     async findAll(): Promise<{}> {
@@ -123,26 +124,29 @@ export const queryRepo ={
         //аналогично проверяем исть ли пароль
         // если оба true - возвращаем в answer true
         const {loginOrEmail, password} = input;
-        let user;
-
-        if (validate(loginOrEmail)) {
-            // Ищем пользователя по email
-            user = await usersCollection.findOne({ email: loginOrEmail });
-        } else {
-            // Ищем пользователя по логину
-            user = await usersCollection.findOne({ login: loginOrEmail });
-        }
-        if (!user) {
-            // Пользователь не найден
-            return false
-        }
-        console.log('user', user)
-
-        //сравниваем хэш пароля
-        // const matchedPassword = await bcrypt.compare(password, user.password)
-        // if(!matchedPassword){
+        // let user;
+        //
+        // if (validate(loginOrEmail)) {
+        //     // Ищем пользователя по email
+        //     user = await usersCollection.findOne({ email: loginOrEmail });
+        // } else {
+        //     // Ищем пользователя по логину
+        //     user = await usersCollection.findOne({ login: loginOrEmail });
+        // }
+        // if (!user) {
+        //     // Пользователь не найден
         //     return false
         // }
+        // console.log('user', user)
+        const user = await usersCollection.findOne({$or : [{login: loginOrEmail}, {email: loginOrEmail}]});
+        if(!user){
+            return false
+        }
+        //сравниваем хэш пароля
+        const matchedPassword = await bcrypt.compare(password, user.password)
+        if(!matchedPassword){
+            return false
+        }
         return true
     },
     async findUserByIdOrFail(id: string):Promise<UserViewModel> {

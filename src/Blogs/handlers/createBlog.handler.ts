@@ -15,7 +15,7 @@ export async function createBlogHandler(req:Request<{},{},BlogInputModel>,res:Re
         const createdId  = await blogsService.createNewBlog(req.body);
         const createdBlog = await queryRepo.findBlogByIdOrFail(createdId);
         const blogToView = mapBlogToViewModel(createdBlog);
-        console.log(blogToView);
+        //console.log(blogToView);
         res.status(httpStatus.Created).send(blogToView)
     }
     catch (e){

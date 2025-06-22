@@ -20,7 +20,7 @@ function authHandler(req, res) {
             authResponse === true ?
                 yield res.sendStatus(http_statuses_1.httpStatus.NoContent) :
                 yield res.sendStatus(http_statuses_1.httpStatus.Unauthorized);
-            //пришел пост-запрос с боди(логинИмэил, пароль)
+            //пришел пост-запрос с боди(логинИлиИмэил, пароль)
             //в БЛЛ направляем инфу о том, что нужно сверить их с теми, что в БД
             //получаем из БД ответ, что есть они там или нет
             //если есть - статус код 204 и сообщение об авторизациии

@@ -8,12 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.queryRepo = void 0;
 const mongodb_1 = require("mongodb");
 const mongo_db_1 = require("../../db/mongo.db");
-const email_validator_1 = require("email-validator");
 const mapUserToOutput_helper_1 = require("../../Users/helpers/mapUserToOutput.helper");
+const bcrypt_1 = __importDefault(require("bcrypt"));
 exports.queryRepo = {
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -118,25 +121,29 @@ exports.queryRepo = {
             //аналогично проверяем исть ли пароль
             // если оба true - возвращаем в answer true
             const { loginOrEmail, password } = input;
-            let user;
-            if ((0, email_validator_1.validate)(loginOrEmail)) {
-                // Ищем пользователя по email
-                user = yield mongo_db_1.usersCollection.findOne({ email: loginOrEmail });
-            }
-            else {
-                // Ищем пользователя по логину
-                user = yield mongo_db_1.usersCollection.findOne({ login: loginOrEmail });
-            }
-            if (!user) {
-                // Пользователь не найден
-                return false;
-            }
-            console.log('user', user);
-            //сравниваем хэш пароля
-            // const matchedPassword = await bcrypt.compare(password, user.password)
-            // if(!matchedPassword){
+            // let user;
+            //
+            // if (validate(loginOrEmail)) {
+            //     // Ищем пользователя по email
+            //     user = await usersCollection.findOne({ email: loginOrEmail });
+            // } else {
+            //     // Ищем пользователя по логину
+            //     user = await usersCollection.findOne({ login: loginOrEmail });
+            // }
+            // if (!user) {
+            //     // Пользователь не найден
             //     return false
             // }
+            // console.log('user', user)
+            const user = yield mongo_db_1.usersCollection.findOne({ $or: [{ login: loginOrEmail }, { email: loginOrEmail }] });
+            if (!user) {
+                return false;
+            }
+            //сравниваем хэш пароля
+            const matchedPassword = yield bcrypt_1.default.compare(password, user.password);
+            if (!matchedPassword) {
+                return false;
+            }
             return true;
         });
     },

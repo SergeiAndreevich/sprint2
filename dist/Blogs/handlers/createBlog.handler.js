@@ -21,7 +21,7 @@ function createBlogHandler(req, res) {
             const createdId = yield blogs_bll_service_1.blogsService.createNewBlog(req.body);
             const createdBlog = yield data_acsess_present_layer_1.queryRepo.findBlogByIdOrFail(createdId);
             const blogToView = (0, map_blog_to_view_model_1.mapBlogToViewModel)(createdBlog);
-            console.log(blogToView);
+            //console.log(blogToView);
             res.status(http_statuses_1.httpStatus.Created).send(blogToView);
         }
         catch (e) {

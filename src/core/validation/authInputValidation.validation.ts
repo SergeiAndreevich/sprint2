@@ -3,7 +3,6 @@ import {body} from "express-validator";
 const loginOrEmail = body('loginOrEmail')
         .exists().withMessage('loginOrEmail is required').trim()
         .custom(async (value, { req }) => {
-
             if (value.isEmail()) {
                 // Логика для email
                 if (!value.isLength({ min: 6})) {

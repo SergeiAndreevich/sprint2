@@ -50,8 +50,9 @@ describe('test posts', ()=>{
     it('find all posts', async () => {
         await createTestPost(app);
         const posts = await request(app).get(PATH.posts).expect(httpStatus.Ok);
-        expect(posts.body).toBeInstanceOf(Array);
-        expect(posts.body.length).toBeGreaterThanOrEqual(1);
+        //console.log('Getting posts', posts.body);
+        expect(posts.body.items).toBeInstanceOf(Array);
+        expect(posts.body.items.length).toBeGreaterThanOrEqual(1);
     });
     it('should find post by id',  async () => {
         //await request(app).post(PATH.posts).set('Authorization', token).send(testPost).expect(httpStatus.Created);

@@ -9,6 +9,5 @@ export enum httpStatus {
     NotFound = 404,
 
     InternalServerError = 500,
-
-    Fuck = 600
+    Fuck=600
 }

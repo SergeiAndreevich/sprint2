@@ -62,11 +62,16 @@ export const checkValidationErrors = (
     if (errors.length > 0) {
         const blogIdError = errors.find(error => error.field === "blogId");
         // Проверяем, найдена ли ошибка
-        if (blogIdError) {
-            //console.log(`blog id error`, blogIdError)
-            res.status(httpStatus.Fuck).send(createErrorMessage(errors))
+        //console.log('errors in CheckErrorsHandler', errors)
+        if(errors.length === 1 && blogIdError) {
+            res.status(httpStatus.NotFound).send(createErrorMessage(errors))
             return;
         }
+        // if (blogIdError) {
+        //     //console.log(`blog id error`, blogIdError)
+        //     res.status(httpStatus.NotFound).send(createErrorMessage(errors))
+        //     return;
+        // }
         //res.status(HttpStatus.BadRequest).json({ errorMessages: errors });
         res.status(httpStatus.BadRequest).send(createErrorMessage(errors));
         return;

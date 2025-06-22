@@ -1,8 +1,8 @@
-import {PaginationPostsViewModel} from "../../core/core-types/pagination-posts-view-model";
 import {PostViewModel} from "../../Posts/dto/post-view-model";
 import {BlogViewModel} from "../dto/blog-view-model";
 import {WithId} from "mongodb";
 import {Post} from "../../Posts/Post";
+import {PaginationPostsViewModel} from "../../core/core-types/pagination-view-models";
 
 export function mapPostsForSpecificBlogPagination(posts: WithId<Post>[], meta:{pageNumber: number; pageSize: number; totalCount: number })
     :PaginationPostsViewModel{

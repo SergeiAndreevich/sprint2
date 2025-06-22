@@ -13,6 +13,6 @@ const queryValidation_validation_1 = require("../core/validation/queryValidation
 const pagination_and_sorting_1 = require("../core/core-types/pagination-and-sorting");
 exports.usersRouter = (0, express_1.Router)({});
 exports.usersRouter
-    .get('/', (0, queryValidation_validation_1.paginationAndSortingValidation)(pagination_and_sorting_1.UsersSortFields), authorization_middleware_1.authorizeMiddleware, ValidationErrors_1.checkValidationErrors, findAllUsersList_handler_1.findAllUsers)
+    .get('/', authorization_middleware_1.authorizeMiddleware, (0, queryValidation_validation_1.paginationAndSortingValidation)(pagination_and_sorting_1.UsersSortFields), ValidationErrors_1.checkValidationErrors, findAllUsersList_handler_1.findAllUsers)
     .post('/', authorization_middleware_1.authorizeMiddleware, userInputValidation_validation_1.UserInputValidation, ValidationErrors_1.checkValidationErrors, createUserHandler_handler_1.createUserHandler)
     .delete('/:id', authorization_middleware_1.authorizeMiddleware, checkId_validation_1.idValidation, ValidationErrors_1.checkValidationErrors, removeUserHandler_handler_1.removeUserHandler);

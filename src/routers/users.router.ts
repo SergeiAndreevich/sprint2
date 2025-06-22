@@ -13,6 +13,6 @@ import {UsersSortFields} from "../core/core-types/pagination-and-sorting";
 export const usersRouter = Router({});
 
 usersRouter
-    .get('/', paginationAndSortingValidation(UsersSortFields), authorizeMiddleware, checkValidationErrors, findAllUsers)
+    .get('/', authorizeMiddleware, paginationAndSortingValidation(UsersSortFields), checkValidationErrors, findAllUsers)
     .post('/', authorizeMiddleware, UserInputValidation, checkValidationErrors, createUserHandler)
     .delete('/:id', authorizeMiddleware, idValidation, checkValidationErrors, removeUserHandler)

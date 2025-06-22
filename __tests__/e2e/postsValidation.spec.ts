@@ -38,11 +38,12 @@ describe('test posts', ()=>{
         //теперь не будет 2 шт, тк только первую ошибку выдаем. Одно поле - первая ошибка, даже если их в этом поле сто штук.
         // 2 шт получается в blodId из-за того что пустой и не нумерик стринг
         const post = await request(app).get(PATH.posts).expect(httpStatus.Ok);
-        expect(post.body.length).toBe(0)
+        expect(post.body.items.length).toBe(0)
     });
     it('should not create a new post', async () => {
-        const res = await request(app).post(PATH.posts).set('Authorization', token).send({...invalidPostSet, title: '    b   b   ', shortDescription: '    a', content: 'b   ', blogId: 'a'})
-            .expect(httpStatus.BadRequest);
+        const res = await request(app).post(PATH.posts).set('Authorization', token)
+            .send({...invalidPostSet, title: '    b   b   ', shortDescription: '    a', content: 'b   ', blogId: 'a'})
+            .expect(httpStatus.NotFound);
         errorsBody=res.body;
         expect(errorsBody.errorsMessages.length).toBe(1)
     });

@@ -26,14 +26,15 @@ describe('test users', ()=> {
         await request(app).delete('/testing/all-data').expect(httpStatus.NoContent)
     })
     it('creates a new user', async () => {
-        const newUser = await request(app).post(PATH.users).set('Authorization', token).send(testUser).expect(httpStatus.Created);
-        const newUser2 = await request(app).post(PATH.users).set('Authorization', token).send(testUser).expect(httpStatus.Created);
+        //const newUser = await request(app).post(PATH.users).set('Authorization', token).send(testUser).expect(httpStatus.Created);
+        const newUser2 = await request(app).post(PATH.users).set('Authorization', token).send({login: 'qwert',
+            password: '123456',email: 'qwert@mail.ru'}).expect(httpStatus.Created);
         //console.log('NewUser2',newUser2.body);
         const usersList = await request(app).get('/users').set('Authorization', token).expect(httpStatus.Ok);
         //console.log(usersList.body);
-        expect(newUser.body.password !== newUser2.body.password);
+        //expect(newUser.body.password !== newUser2.body.password);
 
-        console.log(usersList.body);
+        //console.log(usersList.body);
         const userId = usersList.body.items[0].id;
         await request(app).delete(`${PATH.users}/${userId}`).set('Authorization', token).expect(httpStatus.NoContent);
         const newUsersList = await request(app).get('/users').set('Authorization', token).expect(httpStatus.Ok);

@@ -144,15 +144,15 @@ export const queryRepo ={
         }
         //сравниваем хэш пароля
         const matchedPassword = await bcrypt.compare(password, user.password)
-        if(!matchedPassword){
+        if(matchedPassword === false){
             return false
         }
         return true
     },
-    async findUserByIdOrFail(id: string):Promise<UserViewModel> {
+    async findUserByIdOrFail(id: string):Promise<UserViewModel | null> {
         const found = await  usersCollection.findOne({_id: new ObjectId(id)});
         if(!found){
-            throw new Error('post not found');
+            return null
         }
         const userToOutput = mapUserToOutput(found);
         return userToOutput
@@ -191,5 +191,12 @@ export const queryRepo ={
             items: items.map((item: WithId<User>) => mapUserToOutput(item))
         }
         return usersToView
-    }
+    },
+    async findUserByLogin(login: string): Promise<User | null> {
+        return await usersCollection.findOne({ login: login });
+    },
+    async findUserByEmail(email: string): Promise<User | null> {
+        return await usersCollection.findOne({ email: email });
+    },
+
 }

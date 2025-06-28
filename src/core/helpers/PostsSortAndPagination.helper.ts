@@ -5,8 +5,13 @@ export function setDefaultSortAndPaginationIfNotExist<P = string>(
     query: Partial<PaginationAndSorting<P>>,
 ): PaginationAndSorting<PostsSortFields> {
     return {
-        ...paginationAndSortingDefault,
-        ...query,
+        pageNumber: query.pageNumber ? Number(query.pageNumber) : paginationAndSortingDefault.pageNumber,
+        pageSize: query.pageSize ? Number(query.pageSize) : paginationAndSortingDefault.pageSize,
         sortBy: (query.sortBy ?? paginationAndSortingDefault.sortBy) as PostsSortFields,
-    };
+        sortDirection: query.sortDirection ? query.sortDirection : paginationAndSortingDefault.sortDirection,
+        searchNameTerm: query.searchNameTerm ? query.searchNameTerm : '',
+        searchLoginTerm: query.searchLoginTerm ? query.searchLoginTerm : '',
+        searchEmailTerm: query.searchEmailTerm ? query.searchEmailTerm :''
+    }
+
 }

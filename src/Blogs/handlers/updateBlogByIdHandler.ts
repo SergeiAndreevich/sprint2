@@ -23,6 +23,7 @@ export async function updateBlogByIdHandler(req:Request<{id:string},{},BlogInput
         res.sendStatus(httpStatus.NoContent)
     }
     catch (e){
+        console.log(e)
         errorsHandler(e,res)
     }
 }

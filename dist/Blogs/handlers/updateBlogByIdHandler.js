@@ -30,6 +30,7 @@ function updateBlogByIdHandler(req, res) {
             res.sendStatus(http_statuses_1.httpStatus.NoContent);
         }
         catch (e) {
+            console.log(e);
             (0, errorsHandler_helper_1.errorsHandler)(e, res);
         }
     });

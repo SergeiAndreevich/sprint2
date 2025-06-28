@@ -21,6 +21,7 @@ export async function findBlogByIdHandler(req:Request,res:Response) {
         res.status(httpStatus.Ok).send(blogToView)  // check the order
     }
     catch(e){
+        console.log(e)
         errorsHandler(e,res)
     }
 

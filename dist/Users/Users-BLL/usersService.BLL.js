@@ -16,11 +16,21 @@ exports.usersService = void 0;
 const data_acsess_layer_1 = require("../../core/repository/data-acsess-layer");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const createTokenForTests_1 = require("../../authorization/createTokenForTests");
+const data_acsess_present_layer_1 = require("../../core/repository/data-acsess-present-layer");
 exports.usersService = {
     createNewUser(dto) {
         return __awaiter(this, void 0, void 0, function* () {
             //получили хэш-пароль (пароль+соль)
             const passwordHash = yield bcrypt_1.default.hash(dto.password, createTokenForTests_1.SALT_ROUNDS);
+            const existingUserByLogin = yield data_acsess_present_layer_1.queryRepo.findUserByLogin(dto.login);
+            if (existingUserByLogin) {
+                return 'exist';
+            }
+            // Проверка на уникальность email
+            const existingUserByEmail = yield data_acsess_present_layer_1.queryRepo.findUserByEmail(dto.email);
+            if (existingUserByEmail) {
+                return 'exist';
+            }
             const newUser = {
                 login: dto.login,
                 email: dto.email,

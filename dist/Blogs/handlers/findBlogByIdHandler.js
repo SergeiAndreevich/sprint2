@@ -28,6 +28,7 @@ function findBlogByIdHandler(req, res) {
             res.status(http_statuses_1.httpStatus.Ok).send(blogToView); // check the order
         }
         catch (e) {
+            console.log(e);
             (0, errorsHandler_helper_1.errorsHandler)(e, res);
         }
     });

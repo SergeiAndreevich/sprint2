@@ -24,6 +24,7 @@ export const repository = {
     async removeAll(): Promise<void> {
         await blogsCollection.deleteMany({});
         await postsCollection.deleteMany({});
+        await usersCollection.deleteMany({});
         return
     },
     async updateBlog(id: string, newBlog:BlogInputModel): Promise<void> {

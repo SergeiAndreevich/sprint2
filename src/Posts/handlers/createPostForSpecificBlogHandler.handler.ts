@@ -16,6 +16,7 @@ export async function createPostForSpecificBlogHandler(req:Request<{blogId:strin
         res.status(httpStatus.Created).send(newPostToView)
     }
     catch (e){
+        console.log(e)
         errorsHandler(e,res)
     }
 }

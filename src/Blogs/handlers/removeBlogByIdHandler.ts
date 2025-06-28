@@ -20,6 +20,7 @@ export async function removeBlogByIdHandler(req:Request,res:Response) {
         res.sendStatus(httpStatus.NoContent)
     }
     catch (e) {
+        console.log(e)
         errorsHandler(e,res)
     }
 }

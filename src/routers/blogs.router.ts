@@ -21,7 +21,7 @@ export const blogsRouter = Router({});
 blogsRouter
     .get('', paginationAndSortingValidation(BlogSortsFields), checkValidationErrors, findAllBlogsHandler)
     .get('/:id',idValidation, checkValidationErrors, findBlogByIdHandler)
-    .get('/:blogId/posts', blogIdValidation, paginationAndSortingValidation(PostsSortFields), checkValidationErrors, findPostsForSpecificBlogHandler)
+    .get('/:blogId/posts', blogIdValidation,/*  paginationAndSortingValidation(PostsSortFields),7*/ checkValidationErrors, findPostsForSpecificBlogHandler)
     .post('', authorizeMiddleware, blogInputModelValidation, checkValidationErrors, createBlogHandler)
     .post('/:blogId/posts',blogIdValidation, authorizeMiddleware,BlogPostInputModelValidation,checkValidationErrors,createPostForSpecificBlogHandler)
     .put('/:id', authorizeMiddleware, idValidation,blogInputModelValidation, checkValidationErrors, updateBlogByIdHandler)

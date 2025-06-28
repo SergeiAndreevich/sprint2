@@ -25,6 +25,7 @@ function createPostForSpecificBlogHandler(req, res) {
             res.status(http_statuses_1.httpStatus.Created).send(newPostToView);
         }
         catch (e) {
+            console.log(e);
             (0, errorsHandler_helper_1.errorsHandler)(e, res);
         }
     });

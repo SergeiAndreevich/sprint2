@@ -25,7 +25,7 @@ export async function findAllBlogsHandler(req:Request,res:Response) {
         res.send(blogsToView).status(httpStatus.Ok)  // mb change the order
     }
     catch(e){
-        //console.log(e)
+        console.log(e)
         res.sendStatus((httpStatus.InternalServerError))
     }
 }

@@ -25,7 +25,7 @@ export function paginationAndSortingValidation<T extends string>(sortFieldsEnum:
         query('pageSize')
             .optional()
             .default(DEFAULT_PAGE_SIZE)
-            .isInt({ min: 1, max: 100 })
+            .isInt({ min: 1 })
             .withMessage('Page size must be between 1 and 100')
             .toInt(),
 

@@ -10,22 +10,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findAllUsers = findAllUsers;
-const errorsHandler_helper_1 = require("../../core/helpers/errorsHandler.helper");
 const data_acsess_present_layer_1 = require("../../core/repository/data-acsess-present-layer");
 const UsersSortAndPagination_helper_1 = require("../../core/helpers/UsersSortAndPagination.helper");
 const http_statuses_1 = require("../../core/core-types/http-statuses");
 function findAllUsers(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            //раскукоживаем что из query и добавляем дефолтные значения
-            const queryInput = (0, UsersSortAndPagination_helper_1.setDefaultSortAndPaginationIfNotExist)(req.query);
-            //ищем в репозитории юзеров, фильтруем и мапим для отдачи
-            const users = yield data_acsess_present_layer_1.queryRepo.findUsersListByCriteria(queryInput);
-            //отдаем
-            res.send(users).status(http_statuses_1.httpStatus.Ok);
-        }
-        catch (e) {
-            (0, errorsHandler_helper_1.errorsHandler)(e, res);
-        }
+        //раскукоживаем что из query и добавляем дефолтные значения
+        const queryInput = (0, UsersSortAndPagination_helper_1.setDefaultSortAndPaginationIfNotExist)(req.query);
+        //ищем в репозитории юзеров, фильтруем и мапим для отдачи
+        const users = yield data_acsess_present_layer_1.queryRepo.findUsersListByCriteria(queryInput);
+        //отдаем
+        res.send(users).status(http_statuses_1.httpStatus.Ok);
     });
 }

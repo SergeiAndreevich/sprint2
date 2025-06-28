@@ -19,6 +19,7 @@ export async function createBlogHandler(req:Request<{},{},BlogInputModel>,res:Re
         res.status(httpStatus.Created).send(blogToView)
     }
     catch (e){
+        console.log(e)
         errorsHandler(e,res)
     }
 }

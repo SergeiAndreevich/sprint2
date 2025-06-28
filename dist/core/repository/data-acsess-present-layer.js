@@ -141,7 +141,7 @@ exports.queryRepo = {
             }
             //сравниваем хэш пароля
             const matchedPassword = yield bcrypt_1.default.compare(password, user.password);
-            if (!matchedPassword) {
+            if (matchedPassword === false) {
                 return false;
             }
             return true;
@@ -151,7 +151,7 @@ exports.queryRepo = {
         return __awaiter(this, void 0, void 0, function* () {
             const found = yield mongo_db_1.usersCollection.findOne({ _id: new mongodb_1.ObjectId(id) });
             if (!found) {
-                throw new Error('post not found');
+                return null;
             }
             const userToOutput = (0, mapUserToOutput_helper_1.mapUserToOutput)(found);
             return userToOutput;
@@ -184,5 +184,15 @@ exports.queryRepo = {
             };
             return usersToView;
         });
-    }
+    },
+    findUserByLogin(login) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield mongo_db_1.usersCollection.findOne({ login: login });
+        });
+    },
+    findUserByEmail(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield mongo_db_1.usersCollection.findOne({ email: email });
+        });
+    },
 };

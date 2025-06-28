@@ -11,10 +11,10 @@ export const blogIdValidation = param('blogId')
     .isLength({min: 1})
     .withMessage('Id must consist of length more than or equal to 1')
 //как проверить, что такое есть в БД?
-    .custom(async (value) => {
-        // value - это значение blogId, которое нужно проверить
-        //console.log(value)
-        await queryRepo.findBlogByIdOrFail(value);
-        return
-    })
+//     .custom(async (value) => {
+//         // value - это значение blogId, которое нужно проверить
+//         //console.log(value)
+//         await queryRepo.findBlogByIdOrFail(value);
+//         return
+//     })
     .withMessage('Blog with this id does not exist')

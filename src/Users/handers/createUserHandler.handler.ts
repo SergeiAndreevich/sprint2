@@ -7,16 +7,17 @@ import {mapBlogToViewModel} from "../../Blogs/mappers/map-blog-to-view-model";
 import {httpStatus} from "../../core/core-types/http-statuses";
 
 export async function createUserHandler (req: Request<{},{},UserInputModel>, res: Response){
-    try{
         //прокидываем данные в БД и возвращаем id
-        const createdId = await usersService.createNewUser(req.body)
-        //по id получаем данные из БД и возвращаем ВьюМодельку
-        const user = await queryRepo.findUserByIdOrFail(createdId);
-        //в респонсе выдаем вьюшку и статус
-        res.status(httpStatus.Created).send(user)
-    }
-    catch(e){
-        errorsHandler(e,res)
-    }
-
+                const createdId = await usersService.createNewUser(req.body)
+                if(createdId === 'exist'){
+                        //console.log('error')
+                        res.sendStatus(httpStatus.Unauthorized)
+                        return
+                }
+                //по id получаем данные из БД и возвращаем ВьюМодельку
+                const user = await queryRepo.findUserByIdOrFail(createdId);
+                //в респонсе выдаем вьюшку и статус
+                //console.log('user in Post-User',user);
+                //console.log('res in users', res);
+                res.status(httpStatus.Created).send(user)
 }

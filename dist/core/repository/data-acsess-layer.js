@@ -33,6 +33,7 @@ exports.repository = {
         return __awaiter(this, void 0, void 0, function* () {
             yield mongo_db_1.blogsCollection.deleteMany({});
             yield mongo_db_1.postsCollection.deleteMany({});
+            yield mongo_db_1.usersCollection.deleteMany({});
             return;
         });
     },

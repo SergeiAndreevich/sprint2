@@ -1,4 +1,4 @@
-import {ADMIN_PASSWORD, ADMIN_USERNAME} from "./authorization.middleware";
+import {ADMIN_PASSWORD, ADMIN_USERNAME} from "./middlewares/authorization.middleware";
 export const SALT_ROUNDS = 10;
 
 export const createAuthorizationToken = () =>{

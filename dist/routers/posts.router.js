@@ -10,7 +10,7 @@ const removePostById_handler_1 = require("../Posts/handlers/removePostById.handl
 const checkId_validation_1 = require("../core/validation/checkId.validation");
 const InputPost_validation_1 = require("../core/validation/InputPost.validation");
 const ValidationErrors_1 = require("../core/validation/ValidationErrors");
-const authorization_middleware_1 = require("../authorization/authorization.middleware");
+const authorization_middleware_1 = require("../authorization/middlewares/authorization.middleware");
 exports.postsRouter = (0, express_1.Router)({});
 exports.postsRouter
     .get('', findAllPosts_handler_1.findAllPostsHandler)

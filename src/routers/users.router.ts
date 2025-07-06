@@ -1,6 +1,6 @@
 import {Router} from "express";
 import {checkValidationErrors} from "../core/validation/ValidationErrors";
-import {authorizeMiddleware} from "../authorization/authorization.middleware";
+import {authorizeMiddleware} from "../authorization/middlewares/authorization.middleware";
 import {UserInputValidation} from "../core/validation/userInputValidation.validation";
 import {createUserHandler} from "../Users/handers/createUserHandler.handler";
 import {idValidation} from "../core/validation/checkId.validation";

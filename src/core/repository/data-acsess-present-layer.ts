@@ -16,6 +16,8 @@ import {UserViewModel} from "../../Users/UserViewModel";
 import {mapUserToOutput} from "../../Users/helpers/mapUserToOutput.helper";
 import {PaginationUsersViewModel} from "../core-types/pagination-view-models";
 import bcrypt from "bcrypt";
+import {mapToUserViewModel} from "../../authorization/mappers/mapToViewMeModel.mapper";
+import {MeViewModel} from "../../authorization/MeViewModel.model";
 
 export const queryRepo ={
     async findAll(): Promise<{}> {
@@ -198,5 +200,12 @@ export const queryRepo ={
     async findUserByEmail(email: string): Promise<User | null> {
         return await usersCollection.findOne({ email: email });
     },
+    async findUserById(userId: string): Promise<MeViewModel | null> {
+        const result = await usersCollection.findOne({_id: new ObjectId(userId)});
+        if(!result){
+            return null
+        }
+        return mapToUserViewModel(result)
+    }
 
 }

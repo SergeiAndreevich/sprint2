@@ -7,7 +7,7 @@ import {updateBlogByIdHandler} from "../Blogs/handlers/updateBlogByIdHandler";
 import {idValidation} from "../core/validation/checkId.validation";
 import {blogInputModelValidation} from "../core/validation/InputBlog.validation";
 import {checkValidationErrors} from "../core/validation/ValidationErrors";
-import {authorizeMiddleware} from "../authorization/authorization.middleware";
+import {authorizeMiddleware} from "../authorization/middlewares/authorization.middleware";
 import {paginationAndSortingValidation} from "../core/validation/queryValidation.validation";
 import {BlogSortsFields, PostsSortFields} from "../core/core-types/pagination-and-sorting";
 import {blogIdValidation} from "../core/validation/blogIdValidation.validation";

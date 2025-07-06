@@ -4,5 +4,6 @@ export const PATH = {
     testing: '/testing',
     docs: '/api',
     auth: '/auth',
-    users: '/users'
+    users: '/users',
+    comments: '/comments',
 }

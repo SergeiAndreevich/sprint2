@@ -17,6 +17,7 @@ const mongodb_1 = require("mongodb");
 const mongo_db_1 = require("../../db/mongo.db");
 const mapUserToOutput_helper_1 = require("../../Users/helpers/mapUserToOutput.helper");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const mapToViewMeModel_mapper_1 = require("../../authorization/mappers/mapToViewMeModel.mapper");
 exports.queryRepo = {
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -195,4 +196,13 @@ exports.queryRepo = {
             return yield mongo_db_1.usersCollection.findOne({ email: email });
         });
     },
+    findUserById(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield mongo_db_1.usersCollection.findOne({ _id: new mongodb_1.ObjectId(userId) });
+            if (!result) {
+                return null;
+            }
+            return (0, mapToViewMeModel_mapper_1.mapToUserViewModel)(result);
+        });
+    }
 };

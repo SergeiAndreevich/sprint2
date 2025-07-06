@@ -5,6 +5,7 @@ import {postsRouter} from "./routers/posts.router";
 import {testingRouter} from "./routers/testing.router";
 import {authRouter} from "./routers/auth.router";
 import {usersRouter} from "./routers/users.router";
+import {commentsRouter} from "./routers/comments.router";
 
 
 export const setupApp = (app: Express) => {
@@ -19,7 +20,8 @@ export const setupApp = (app: Express) => {
     app.use(PATH.posts,postsRouter);
     app.use(PATH.testing,testingRouter);
     app.use(PATH.auth, authRouter);
-    app.use(PATH.users, usersRouter)
+    app.use(PATH.users, usersRouter);
+    app.use(PATH.comments, commentsRouter)
     //setupSwagger(app);
     return app;
 };

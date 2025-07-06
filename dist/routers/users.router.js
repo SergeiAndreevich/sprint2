@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.usersRouter = void 0;
 const express_1 = require("express");
 const ValidationErrors_1 = require("../core/validation/ValidationErrors");
-const authorization_middleware_1 = require("../authorization/authorization.middleware");
+const authorization_middleware_1 = require("../authorization/middlewares/authorization.middleware");
 const userInputValidation_validation_1 = require("../core/validation/userInputValidation.validation");
 const createUserHandler_handler_1 = require("../Users/handers/createUserHandler.handler");
 const checkId_validation_1 = require("../core/validation/checkId.validation");

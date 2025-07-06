@@ -105,11 +105,11 @@ exports.repository = {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield mongo_db_1.usersCollection.findOne({ $or: [{ login: loginOrEmail }, { email: loginOrEmail }] });
             if (!user) {
-                return { status: ResultObject_model_1.ResultStatus.NotFound, data: null };
+                return { status: ResultObject_model_1.ResultStatus.NotFound, data: null, error: { field: 'loginOrEmail', message: 'user not found' } };
             }
             const isPasswordCorrect = yield bcryptAdapter_adapter_1.bcryptAdapter.checkPassword(password, user.password);
             if (!isPasswordCorrect) {
-                return { status: ResultObject_model_1.ResultStatus.Unauthorized, data: null };
+                return { status: ResultObject_model_1.ResultStatus.Unauthorized, data: null, error: { field: 'password', message: 'wrong password' } };
             }
             return { status: ResultObject_model_1.ResultStatus.Success, data: (0, mapUserToOutput_helper_1.mapUserToOutput)(user) };
         });

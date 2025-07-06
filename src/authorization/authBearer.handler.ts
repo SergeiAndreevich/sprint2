@@ -19,7 +19,7 @@ export async function  authHandler (req: Request<{},{},LoginInputModel>, res: Re
                         res.status(httpStatus.Ok).send(result.data);
                         break
                 default:
-                        res.sendStatus(httpStatus.InternalServerError);
+                        res.status(httpStatus.InternalServerError).send('Unknown error');
                         break
         }
         // const authResponse = await queryRepo.checkAuthInfo(req.body);

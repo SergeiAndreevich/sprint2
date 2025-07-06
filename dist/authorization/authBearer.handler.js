@@ -27,7 +27,7 @@ function authHandler(req, res) {
                 res.status(http_statuses_1.httpStatus.Ok).send(result.data);
                 break;
             default:
-                res.sendStatus(http_statuses_1.httpStatus.InternalServerError);
+                res.status(http_statuses_1.httpStatus.InternalServerError).send('Unknown error');
                 break;
         }
         // const authResponse = await queryRepo.checkAuthInfo(req.body);

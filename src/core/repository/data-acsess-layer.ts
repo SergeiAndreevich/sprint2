@@ -81,9 +81,9 @@ export const repository = {
     },
     async findUserByLoginOrEmail(loginOrEmail:string, password: string): Promise<Result<UserViewModel | null>> {
         const user = await usersCollection.findOne({$or: [{login: loginOrEmail}, {email: loginOrEmail}]});
-        if (!user) {return {status: ResultStatus.NotFound, data: null}}
+        if (!user) {return {status: ResultStatus.NotFound, data: null, error: {field: 'loginOrEmail', message: 'user not found'}};}
         const isPasswordCorrect = await bcryptAdapter.checkPassword(password, user.password);
-        if (!isPasswordCorrect) {return {status: ResultStatus.Unauthorized, data: null}}
+        if (!isPasswordCorrect) {return {status: ResultStatus.Unauthorized, data: null, error: {field: 'password', message: 'wrong password'}};}
         return {status: ResultStatus.Success, data:mapUserToOutput(user)}
     }
 }

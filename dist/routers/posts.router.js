@@ -18,3 +18,4 @@ exports.postsRouter
     .get('/:id', checkId_validation_1.idValidation, ValidationErrors_1.checkValidationErrors, findPostById_handler_1.findPostByIdHandler)
     .put('/:id', authorization_middleware_1.authorizeMiddleware, checkId_validation_1.idValidation, InputPost_validation_1.postInputModelValidation, ValidationErrors_1.checkValidationErrors, updatePostById_handler_1.updatePostByIdHandler)
     .delete('/:id', authorization_middleware_1.authorizeMiddleware, checkId_validation_1.idValidation, ValidationErrors_1.checkValidationErrors, removePostById_handler_1.removePostByIdHandler);
+//добавить два метода добавить коммент и получить коммент

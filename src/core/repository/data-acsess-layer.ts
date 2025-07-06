@@ -1,12 +1,14 @@
-import {localDB} from "../../db/mock-db.db";
 import {Blog} from "../../Blogs/Blog";
 import {BlogInputModel} from "../../Blogs/dto/blog-input-model";
 import {Post} from "../../Posts/Post";
 import {PostInputModel} from "../../Posts/dto/post-input-model";
-import {ObjectId, WithId} from "mongodb";
+import {ObjectId} from "mongodb";
 import {blogsCollection, postsCollection, usersCollection} from "../../db/mongo.db";
-import allPresets from "ts-jest/presets";
 import {User} from "../../Users/User";
+import {UserViewModel} from "../../Users/UserViewModel";
+import {bcryptAdapter} from "../../adapters/bcryptAdapter.adapter";
+import {mapUserToOutput} from "../../Users/helpers/mapUserToOutput.helper";
+import {Result, ResultStatus} from "../core-types/ResultObject.model";
 
 export const repository = {
     async createNewBlog(newBlog:Blog): Promise<string>{
@@ -76,5 +78,12 @@ export const repository = {
             throw new Error('User does not exist');
         }
         return
+    },
+    async findUserByLoginOrEmail(loginOrEmail:string, password: string): Promise<Result<UserViewModel | null>> {
+        const user = await usersCollection.findOne({$or: [{login: loginOrEmail}, {email: loginOrEmail}]});
+        if (!user) {return {status: ResultStatus.NotFound, data: null}}
+        const isPasswordCorrect = await bcryptAdapter.checkPassword(password, user.password);
+        if (!isPasswordCorrect) {return {status: ResultStatus.Unauthorized, data: null}}
+        return {status: ResultStatus.Success, data:mapUserToOutput(user)}
     }
 }

@@ -12,6 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.repository = void 0;
 const mongodb_1 = require("mongodb");
 const mongo_db_1 = require("../../db/mongo.db");
+const bcryptAdapter_adapter_1 = require("../../adapters/bcryptAdapter.adapter");
+const mapUserToOutput_helper_1 = require("../../Users/helpers/mapUserToOutput.helper");
+const ResultObject_model_1 = require("../core-types/ResultObject.model");
 exports.repository = {
     createNewBlog(newBlog) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -96,6 +99,19 @@ exports.repository = {
                 throw new Error('User does not exist');
             }
             return;
+        });
+    },
+    findUserByLoginOrEmail(loginOrEmail, password) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield mongo_db_1.usersCollection.findOne({ $or: [{ login: loginOrEmail }, { email: loginOrEmail }] });
+            if (!user) {
+                return { status: ResultObject_model_1.ResultStatus.NotFound, data: null };
+            }
+            const isPasswordCorrect = yield bcryptAdapter_adapter_1.bcryptAdapter.checkPassword(password, user.password);
+            if (!isPasswordCorrect) {
+                return { status: ResultObject_model_1.ResultStatus.Unauthorized, data: null };
+            }
+            return { status: ResultObject_model_1.ResultStatus.Success, data: (0, mapUserToOutput_helper_1.mapUserToOutput)(user) };
         });
     }
 };

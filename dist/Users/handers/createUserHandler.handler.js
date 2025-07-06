@@ -15,18 +15,24 @@ const data_acsess_present_layer_1 = require("../../core/repository/data-acsess-p
 const http_statuses_1 = require("../../core/core-types/http-statuses");
 function createUserHandler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        //прокидываем данные в БД и возвращаем id
-        const createdId = yield usersService_BLL_1.usersService.createNewUser(req.body);
-        if (createdId === 'exist') {
-            //console.log('error')
-            res.sendStatus(http_statuses_1.httpStatus.Unauthorized);
-            return;
+        try {
+            //прокидываем данные в БД и возвращаем id
+            const createdId = yield usersService_BLL_1.usersService.createNewUser(req.body);
+            if (createdId === 'exist') {
+                //console.log('error')
+                res.sendStatus(700);
+                return;
+            }
+            //по id получаем данные из БД и возвращаем ВьюМодельку
+            const user = yield data_acsess_present_layer_1.queryRepo.findUserByIdOrFail(createdId);
+            //в респонсе выдаем вьюшку и статус
+            //console.log('user in Post-User',user);
+            //console.log('res in users', res);
+            res.status(http_statuses_1.httpStatus.Created).send(user);
         }
-        //по id получаем данные из БД и возвращаем ВьюМодельку
-        const user = yield data_acsess_present_layer_1.queryRepo.findUserByIdOrFail(createdId);
-        //в респонсе выдаем вьюшку и статус
-        //console.log('user in Post-User',user);
-        //console.log('res in users', res);
-        res.status(http_statuses_1.httpStatus.Created).send(user);
+        catch (e) {
+            console.log('asdfghjkl;lkjhgfffghjk', e); // ошибка не здесь
+            res.status(600).send(e);
+        }
     });
 }

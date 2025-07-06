@@ -13,13 +13,14 @@
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
-	"packageManager": "pnpm@10.12.1",
+	"packageManager": "pnpm@10.12.4",
 	"dependencies": {
 		"@types/bcrypt": "^5.0.2",
 		"bcrypt": "^6.0.0",
 		"email-validator": "^2.0.4",
 		"express": "^5.1.0",
 		"express-validator": "^7.2.1",
+		"jsonwebtoken": "^9.0.2",
 		"mongodb": "^6.17.0",
 		"swagger-jsdoc": "^6.2.8",
 		"swagger-ui-express": "^5.0.1"

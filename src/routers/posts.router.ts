@@ -16,3 +16,5 @@ postsRouter
     .get('/:id', idValidation, checkValidationErrors, findPostByIdHandler)
     .put('/:id',authorizeMiddleware, idValidation, postInputModelValidation, checkValidationErrors, updatePostByIdHandler)
     .delete('/:id',authorizeMiddleware, idValidation, checkValidationErrors, removePostByIdHandler)
+
+    //добавить два метода добавить коммент и получить коммент
